@@ -127,15 +127,31 @@ wstring convertHiraganaToRomaji(wstring hiragana){
 	wstring output = L"";
 	bool finished;
 
+	bool doubleNextConsonant = false;
+	
+
 	for(int i = 0; i < hiragana.size(); i++) {
 
 		finished = false;
 
 		for(int j = 0; j < kanaList.size() && !finished; j++) {
 
-			if(hiragana[i] == kanaList[j].getHiragana()) {
+			if(hiragana[i] == L'っ') {
+
+				doubleNextConsonant = true;
+
+			} else if(hiragana[i] == kanaList[j].getHiragana()) {
+
+				if(doubleNextConsonant) {
+
+					output += kanaList[j].getRomaji()[0];
+					doubleNextConsonant = false;
+					
+				}
+
 				output += kanaList[j].getRomaji();
 				finished = true;
+
 			}
 
 		}
